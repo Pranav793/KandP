@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gallery • Pranav & Kashika</title>
+    <meta name="description" content="A gallery for Pranav & Kashika — our favorite photos." />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav">
+        <a class="brand" href="index.html">
+          <span class="brand-badge" aria-hidden="true"><span>♡</span></span>
+          <span>Pranav &amp; Kashika</span>
+        </a>
+        <nav class="navlinks" aria-label="Primary">
+          <a class="pill" data-nav href="index.html">Home</a>
+          <a class="pill" data-nav href="story.html">Our Story</a>
+          <a class="pill" data-nav href="gallery.html">Gallery</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <div class="card hero-inner">
+          <div>
+            <div class="kicker">Gallery • May 4</div>
+            <h1>Our photos, all in one place.</h1>
+            <p class="lead">
+              This gallery is intentionally empty for now. When you’re ready, we’ll add a real photo
+              grid and make it easy to drop images into a folder and have them show up here.
+            </p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="story.html">Back to our story</a>
+              <a class="btn" href="index.html">Back home</a>
+            </div>
+          </div>
+          <aside class="side">
+            <div class="mini">
+              <h3>Later</h3>
+              <p>We can add categories like “Trips”, “Dates”, “Favorites”.</p>
+            </div>
+            <div class="mini">
+              <h3>Even later</h3>
+              <p>We can add uploads + private access if you want it truly “ours”.</p>
+            </div>
+          </aside>
+        </div>
+
+        <section class="gallery-wrap">
+          <div class="gallery-head">
+            <div>
+              <h2>Coming soon</h2>
+              <p class="subtle">Your memories belong here.</p>
+            </div>
+          </div>
+
+          <div class="empty">
+            <strong>No photos yet.</strong>
+            <div class="subtle">
+              When you want, we’ll create an <code>images/</code> folder and a simple gallery layout
+              that auto-loads your pictures.
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <footer class="footer">
+        <div class="footer-inner">
+          <span class="heartline"><span class="dot"></span> the best is ahead</span>
+          <span>© <span id="year"></span> Pranav &amp; Kashika</span>
+        </div>
+      </footer>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
+

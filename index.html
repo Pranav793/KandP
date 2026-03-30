@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pranav & Kashika • May 4</title>
+    <meta
+      name="description"
+      content="A tiny corner of the internet for Pranav & Kashika — May 4."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav">
+        <a class="brand" href="index.html">
+          <span class="brand-badge" aria-hidden="true"><span>♡</span></span>
+          <span>Pranav &amp; Kashika</span>
+        </a>
+        <nav class="navlinks" aria-label="Primary">
+          <a class="pill" data-nav href="index.html">Home</a>
+          <a class="pill" data-nav href="story.html">Our Story</a>
+          <a class="pill" data-nav href="gallery.html">Gallery</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <div class="card hero-inner relative">
+          <div class="glow" aria-hidden="true"></div>
+          <div>
+            <div class="kicker">May 4 • our anniversary</div>
+            <h1>
+              A little corner of the internet
+              <br />
+              just for Pranav &amp; Kashika.
+            </h1>
+            <p class="lead">
+              This site is our scrapbook — the moments we keep, the places we’ve been, and all the
+              tiny things that somehow became everything.
+            </p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="story.html">Read our story</a>
+              <a class="btn" href="gallery.html">Open the gallery</a>
+            </div>
+          </div>
+
+          <aside class="side" aria-label="Highlights">
+            <div class="mini">
+              <h3>Made for you</h3>
+              <p>Soft colors, clean layout, and room for photos later.</p>
+            </div>
+            <div class="mini">
+              <h3>Private vibes</h3>
+              <p>Just static files for now — we can add storage & uploads later.</p>
+            </div>
+            <div class="mini">
+              <h3>Built to grow</h3>
+              <p>We can turn this into a full app whenever you’re ready.</p>
+            </div>
+          </aside>
+        </div>
+
+        <div class="grid">
+          <section class="section col-6">
+            <h2>What this is</h2>
+            <p>
+              A simple anniversary website with 3 pages: Home, Our Story, and a Gallery. You can
+              customize names, dates, and text whenever you want.
+            </p>
+          </section>
+          <section class="section col-6">
+            <h2>What’s next</h2>
+            <p>
+              When you’re ready, we’ll add a real photo grid + lightbox, and eventually a way to
+              upload/store photos (so it’s always yours).
+            </p>
+          </section>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="footer-inner">
+          <span class="heartline"><span class="dot"></span> built with love</span>
+          <span>© <span id="year"></span> Pranav &amp; Kashika</span>
+        </div>
+      </footer>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
+
