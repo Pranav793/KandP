@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Us &bull; K &amp; P</title>
+    <meta name="description" content="Our photo gallery — Pranav & Kashika." />
+    <link rel="canonical" href="https://kandp.site/us/" />
+    <meta property="og:url" content="https://kandp.site/us/" />
+    <meta property="og:site_name" content="K & P" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" href="../styles.css" />
+    <style>
+      html, body {
+        overflow: auto;
+      }
+
+      body {
+        flex-direction: column;
+        padding: 40px 24px;
+        gap: 32px;
+        min-height: 100%;
+        height: auto;
+      }
+
+      .gallery-header {
+        text-align: center;
+        max-width: 600px;
+      }
+
+      .gallery-title {
+        font-family: var(--font-page);
+        font-size: clamp(36px, 6vw, 56px);
+        color: var(--ink);
+        margin-bottom: 8px;
+      }
+
+      .gallery-subtitle {
+        font-family: var(--font-page);
+        font-size: 18px;
+        color: var(--ink-faint);
+      }
+
+      .gallery-back {
+        font-family: var(--font-page);
+        font-size: 16px;
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 200ms ease;
+      }
+
+      .gallery-back:hover {
+        color: var(--ink);
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 24px;
+        width: 100%;
+        max-width: 900px;
+      }
+
+      .gallery-empty {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 60px 24px;
+        border: 2px dashed var(--accent);
+        border-radius: var(--radius);
+        background: rgba(196, 114, 127, 0.04);
+      }
+
+      .gallery-empty-title {
+        font-family: var(--font-page);
+        font-size: 24px;
+        color: var(--accent);
+        margin-bottom: 8px;
+      }
+
+      .gallery-empty-desc {
+        font-family: var(--font-page);
+        font-size: 16px;
+        color: var(--ink-faint);
+      }
+
+      .polaroid {
+        background: var(--page-bg);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        padding: 10px 10px 32px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: transform 300ms ease;
+      }
+
+      .polaroid:nth-child(3n+1) { transform: rotate(-2deg); }
+      .polaroid:nth-child(3n+2) { transform: rotate(1.5deg); }
+      .polaroid:nth-child(3n+3) { transform: rotate(-0.5deg); }
+
+      .polaroid:hover {
+        transform: rotate(0deg) scale(1.03);
+      }
+
+      .polaroid img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .polaroid .caption {
+        font-family: var(--font-page);
+        font-size: 15px;
+        color: var(--ink-light);
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      @media (max-width: 580px) {
+        .gallery-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="gallery-header">
+      <div class="gallery-title">Us</div>
+      <div class="gallery-subtitle">Our photos, all in one place.</div>
+      <a class="gallery-back" href="../">&larr; back to the notebook</a>
+    </div>
+
+    <div class="gallery-grid">
+
+      <!-- Add photos as polaroid cards:
+      <div class="polaroid">
+        <img src="photo.jpg" alt="Description" />
+        <div class="caption">a caption</div>
+      </div>
+      -->
+
+      <div class="gallery-empty">
+        <div class="gallery-empty-title">memories go here</div>
+        <div class="gallery-empty-desc">
+          Drop photos into the us/ folder and add them as polaroid cards.
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
