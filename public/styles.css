@@ -301,6 +301,10 @@ body {
   color: var(--ink-light);
   white-space: pre-line;
   flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.12) transparent;
 }
 
 .page-number {
@@ -430,16 +434,17 @@ body {
 /* ── Responsive ──────────────────────────────────── */
 
 @media (max-width: 960px) {
+  :root {
+    --notebook-w: 92vw;
+    --notebook-h: min(60vw, 78vh);
+    --line-height: 24px;
+  }
+
   .cover {
     width: 340px;
     height: 460px;
   }
   .cover-title { font-size: 52px; }
-
-  :root {
-    --notebook-w: 92vw;
-    --notebook-h: 60vw;
-  }
 
   .nav-prev { left: -8px; }
   .nav-next { right: -8px; }
@@ -452,51 +457,82 @@ body {
   }
 
   .page {
-    padding: 32px 24px 24px 44px;
+    padding: 28px 20px 22px 40px;
+    background-position: 34px 0, 0 20px;
   }
 
-  .page-title { font-size: 22px; }
-  .page-body { font-size: 17px; }
-  :root { --line-height: 28px; }
+  .page-title { font-size: 22px; margin-bottom: 10px; }
+  .page-body { font-size: 16px; }
+  .toc-link { font-size: 16px; margin-bottom: 10px; }
 }
 
 @media (max-width: 580px) {
-  .cover {
-    width: 280px;
-    height: 390px;
-  }
-  .cover-title { font-size: 42px; }
-  .cover-heart { font-size: 22px; }
-
   :root {
     --notebook-w: 96vw;
-    --notebook-h: 68vw;
-    --line-height: 26px;
+    --notebook-h: 72vh;
+    --line-height: 20px;
   }
+
+  .cover {
+    width: 260px;
+    height: min(380px, 60vh);
+  }
+  .cover-title { font-size: 40px; }
+  .cover-heart { font-size: 20px; }
+  .cover-hint { font-size: 14px; bottom: 18px; }
 
   .page {
-    padding: 24px 16px 20px 36px;
+    padding: 18px 12px 16px 28px;
+    background-position: 22px 0, 0 14px;
   }
 
-  .page-title { font-size: 18px; }
-  .page-body { font-size: 15px; }
-  .page-number { font-size: 13px; }
+  .page-title { font-size: 16px; margin-bottom: 6px; }
+  .page-body { font-size: 13px; overflow-y: auto; }
+  .page-number { font-size: 11px; padding-top: 4px; }
+  .toc-link { font-size: 14px; margin-bottom: 8px; }
+
+  .page-link { padding: 18px; gap: 4px; }
+  .page-link-icon { font-size: 22px; }
+  .page-link-title { font-size: 20px; }
+  .page-link-desc { font-size: 13px; }
 
   .nav-arrow {
-    width: 32px;
-    height: 32px;
-    font-size: 16px;
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
   }
 
   .nav-prev { left: -4px; }
   .nav-next { right: -4px; }
 
-  .notebook-bg { inset: -8px; }
+  .notebook-bg { inset: -6px; }
   .spine {
-    width: 16px;
-    top: -8px;
-    bottom: -8px;
+    width: 12px;
+    top: -6px;
+    bottom: -6px;
   }
+}
+
+@media (max-width: 380px) {
+  :root {
+    --notebook-h: 75vh;
+    --line-height: 18px;
+  }
+
+  .cover {
+    width: 220px;
+    height: min(320px, 55vh);
+  }
+  .cover-title { font-size: 34px; }
+
+  .page {
+    padding: 14px 10px 12px 22px;
+    background-position: 18px 0, 0 12px;
+  }
+
+  .page-title { font-size: 14px; margin-bottom: 4px; }
+  .page-body { font-size: 12px; }
+  .toc-link { font-size: 13px; margin-bottom: 6px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
