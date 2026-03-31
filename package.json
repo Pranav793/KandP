@@ -1,0 +1,16 @@
+{
+  "name": "kandp",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "WRANGLER_LOG_PATH=./.wrangler/logs/wrangler-dev.log wrangler dev --ip 127.0.0.1",
+    "build": "echo \"no build step (static assets served from ./public)\"",
+    "deploy": "WRANGLER_LOG_PATH=./.wrangler/logs/wrangler-deploy.log wrangler deploy"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250320.0",
+    "typescript": "^5.8.2",
+    "wrangler": "^4.12.0"
+  }
+}
+
