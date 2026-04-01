@@ -7,8 +7,14 @@ directory = "./public"
 binding = "ASSETS"
 run_worker_first = true
 
+# R2 bucket for images (served at img.kandp.site)
+[[r2_buckets]]
+binding = "IMAGES"
+bucket_name = "kandp-public" # ← change this to your actual R2 bucket name
+
 # Custom domains (Workers dashboard → this Worker → Custom domains):
 #   - kandp.site
 #   - www.kandp.site
+#   - img.kandp.site  ← add this one too
 # The Worker redirects www → apex so SEO and links stay consistent.
 
