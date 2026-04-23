@@ -13,7 +13,8 @@
     const lines = text.replace(/\r\n/g, "\n").split("\n");
     const title = lines[0].trim();
     const bodyStart = lines[1] && lines[1].trim() === "" ? 2 : 1;
-    const body = lines.slice(bodyStart).join("\n").trim();
+    const body = lines.slice(bodyStart).join("\n").trim()
+      .replace(/\./g, "<b>.</b>");
     return { title, body };
   }
 
