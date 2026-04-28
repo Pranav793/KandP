@@ -12,6 +12,9 @@ run_worker_first = true
 binding = "IMAGES"
 bucket_name = "kandp-public" # ← change this to your actual R2 bucket name
 
+# Upload password — set the real value via `wrangler secret put UPLOAD_PASSWORD`
+# For local dev, put it in .dev.vars instead.
+
 # Custom domains (Workers dashboard → this Worker → Custom domains):
 #   - kandp.site
 #   - www.kandp.site

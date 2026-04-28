@@ -121,7 +121,7 @@
 
       .polaroid .caption {
         font-family: var(--font-page);
-        font-size: 15px;
+        font-size: 20px;
         color: var(--ink-light);
         text-align: center;
         margin-top: 10px;
@@ -235,6 +235,193 @@
       .lb-prev { left: 16px; }
       .lb-next { right: 16px; }
 
+      /* ── Upload FAB ────────────────────────────── */
+
+      .upload-fab {
+        position: fixed;
+        bottom: 28px;
+        right: 28px;
+        z-index: 50;
+        width: 56px;
+        height: 56px;
+        border: none;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        font-size: 28px;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(196, 114, 127, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 200ms ease, box-shadow 200ms ease;
+      }
+
+      .upload-fab:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 28px rgba(196, 114, 127, 0.55);
+      }
+
+      /* ── Upload Modal ───────────────────────────── */
+
+      .upload-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 250ms ease;
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
+      }
+
+      .upload-overlay.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .upload-modal {
+        background: var(--page-bg);
+        border-radius: 16px;
+        padding: 32px;
+        width: 90vw;
+        max-width: 420px;
+        box-shadow: 0 16px 60px rgba(0, 0, 0, 0.25);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .upload-modal h2 {
+        font-family: var(--font-page);
+        font-size: 28px;
+        color: var(--ink);
+        text-align: center;
+        font-weight: normal;
+      }
+
+      .upload-field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .upload-field label {
+        font-family: var(--font-page);
+        font-size: 16px;
+        color: var(--ink-light);
+      }
+
+      .upload-field input[type="text"],
+      .upload-field input[type="password"] {
+        font-family: var(--font-page);
+        font-size: 18px;
+        padding: 10px 14px;
+        border: 1.5px solid rgba(0, 0, 0, 0.12);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--ink);
+        outline: none;
+        transition: border-color 200ms ease;
+      }
+
+      .upload-field input:focus {
+        border-color: var(--accent);
+      }
+
+      .upload-file-picker {
+        position: relative;
+        border: 2px dashed rgba(0, 0, 0, 0.12);
+        border-radius: 10px;
+        padding: 28px 16px;
+        text-align: center;
+        cursor: pointer;
+        transition: border-color 200ms ease, background 200ms ease;
+        overflow: hidden;
+      }
+
+      .upload-file-picker:hover,
+      .upload-file-picker.has-file {
+        border-color: var(--accent);
+        background: rgba(196, 114, 127, 0.04);
+      }
+
+      .upload-file-picker input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      .upload-file-label {
+        font-family: var(--font-page);
+        font-size: 16px;
+        color: var(--ink-faint);
+        pointer-events: none;
+      }
+
+      .upload-preview {
+        max-width: 100%;
+        max-height: 180px;
+        object-fit: contain;
+        border-radius: 6px;
+        display: none;
+        margin: 0 auto;
+      }
+
+      .upload-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+      }
+
+      .upload-btn {
+        font-family: var(--font-page);
+        font-size: 18px;
+        padding: 10px 24px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 200ms ease, transform 150ms ease;
+      }
+
+      .upload-btn-cancel {
+        background: transparent;
+        color: var(--ink-faint);
+      }
+
+      .upload-btn-cancel:hover {
+        color: var(--ink);
+      }
+
+      .upload-btn-submit {
+        background: var(--accent);
+        color: #fff;
+      }
+
+      .upload-btn-submit:hover {
+        background: #b5616e;
+        transform: scale(1.03);
+      }
+
+      .upload-btn-submit:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .upload-error {
+        font-family: var(--font-page);
+        font-size: 15px;
+        color: #c0392b;
+        text-align: center;
+        min-height: 1.2em;
+      }
+
       /* ── Responsive ────────────────────────────── */
 
       @media (max-width: 580px) {
@@ -262,6 +449,19 @@
 
         .lb-prev { left: 8px; }
         .lb-next { right: 8px; }
+
+        .upload-fab {
+          bottom: 20px;
+          right: 20px;
+          width: 48px;
+          height: 48px;
+          font-size: 24px;
+        }
+
+        .upload-modal {
+          padding: 24px;
+          gap: 16px;
+        }
       }
     </style>
   </head>
@@ -284,6 +484,41 @@
       <div class="lb-caption"></div>
     </div>
 
+    <!-- Upload FAB -->
+    <button class="upload-fab" id="uploadFab" aria-label="Add photo">+</button>
+
+    <!-- Upload Modal -->
+    <div class="upload-overlay" id="uploadOverlay">
+      <div class="upload-modal">
+        <h2>add a memory</h2>
+
+        <div class="upload-field">
+          <div class="upload-file-picker" id="filePicker">
+            <input type="file" id="fileInput" accept="image/jpeg,image/png,image/gif,image/webp,image/avif" />
+            <img class="upload-preview" id="uploadPreview" alt="Preview" />
+            <div class="upload-file-label" id="fileLabel">tap to choose a photo</div>
+          </div>
+        </div>
+
+        <div class="upload-field">
+          <label for="captionInput">caption</label>
+          <input type="text" id="captionInput" placeholder="what's happening here?" autocomplete="off" />
+        </div>
+
+        <div class="upload-field">
+          <label for="passwordInput">password</label>
+          <input type="password" id="passwordInput" placeholder="you know the one" autocomplete="off" />
+        </div>
+
+        <div class="upload-error" id="uploadError"></div>
+
+        <div class="upload-actions">
+          <button class="upload-btn upload-btn-cancel" id="uploadCancel">cancel</button>
+          <button class="upload-btn upload-btn-submit" id="uploadSubmit" disabled>upload</button>
+        </div>
+      </div>
+    </div>
+
     <script>
       const R2 = "/img";
       const grid = document.getElementById("grid");
@@ -293,9 +528,21 @@
       let photos = [];
       let lbIndex = 0;
 
+      function createCard(p, i) {
+        const src = typeof p === "string" ? p : p.src;
+        const caption = (typeof p === "object" && p.caption) || "";
+        const card = document.createElement("div");
+        card.className = "polaroid";
+        card.innerHTML =
+          `<img src="${R2}/${src}" alt="${caption || "Photo " + (i + 1)}" loading="lazy" />` +
+          `<div class="caption">${caption}</div>`;
+        card.addEventListener("click", () => openLightbox(i));
+        return card;
+      }
+
       async function init() {
         try {
-          photos = await fetch("photos.json").then((r) => r.json());
+          photos = await fetch("/api/photos").then((r) => r.json());
         } catch {
           photos = [];
         }
@@ -304,23 +551,15 @@
           grid.innerHTML =
             `<div class="gallery-empty">` +
             `<div class="gallery-empty-title">memories go here</div>` +
-            `<div class="gallery-empty-desc">Add photos to photos.json to get started.</div>` +
+            `<div class="gallery-empty-desc">Upload your first photo with the + button.</div>` +
             `</div>`;
           return;
         }
 
-        photos.forEach((p, i) => {
-          const src = typeof p === "string" ? p : p.src;
-          const caption = (typeof p === "object" && p.caption) || "";
-          const card = document.createElement("div");
-          card.className = "polaroid";
-          card.innerHTML =
-            `<img src="${R2}/${src}" alt="${caption || "Photo " + (i + 1)}" loading="lazy" />` +
-            `<div class="caption">${caption}</div>`;
-          card.addEventListener("click", () => openLightbox(i));
-          grid.appendChild(card);
-        });
+        photos.forEach((p, i) => grid.appendChild(createCard(p, i)));
       }
+
+      /* ── Lightbox ─────────────────────────────── */
 
       function openLightbox(index) {
         lbIndex = index;
@@ -354,16 +593,107 @@
       lightbox.querySelector(".lb-close").addEventListener("click", closeLightbox);
       lightbox.querySelector(".lb-prev").addEventListener("click", lbPrev);
       lightbox.querySelector(".lb-next").addEventListener("click", lbNext);
-
-      lightbox.addEventListener("click", (e) => {
-        if (e.target === lightbox) closeLightbox();
-      });
+      lightbox.addEventListener("click", (e) => { if (e.target === lightbox) closeLightbox(); });
 
       document.addEventListener("keydown", (e) => {
-        if (!lightbox.classList.contains("open")) return;
-        if (e.key === "Escape") closeLightbox();
-        if (e.key === "ArrowLeft") lbPrev();
-        if (e.key === "ArrowRight") lbNext();
+        if (lightbox.classList.contains("open")) {
+          if (e.key === "Escape") closeLightbox();
+          if (e.key === "ArrowLeft") lbPrev();
+          if (e.key === "ArrowRight") lbNext();
+          return;
+        }
+        if (uploadOverlay.classList.contains("open") && e.key === "Escape") {
+          closeUpload();
+        }
+      });
+
+      /* ── Upload modal ─────────────────────────── */
+
+      const uploadOverlay = document.getElementById("uploadOverlay");
+      const fileInput = document.getElementById("fileInput");
+      const filePicker = document.getElementById("filePicker");
+      const fileLabel = document.getElementById("fileLabel");
+      const uploadPreview = document.getElementById("uploadPreview");
+      const captionInput = document.getElementById("captionInput");
+      const passwordInput = document.getElementById("passwordInput");
+      const uploadError = document.getElementById("uploadError");
+      const uploadSubmit = document.getElementById("uploadSubmit");
+
+      document.getElementById("uploadFab").addEventListener("click", () => {
+        uploadOverlay.classList.add("open");
+      });
+
+      document.getElementById("uploadCancel").addEventListener("click", closeUpload);
+
+      uploadOverlay.addEventListener("click", (e) => {
+        if (e.target === uploadOverlay) closeUpload();
+      });
+
+      function closeUpload() {
+        uploadOverlay.classList.remove("open");
+        fileInput.value = "";
+        captionInput.value = "";
+        passwordInput.value = "";
+        uploadError.textContent = "";
+        uploadPreview.style.display = "none";
+        fileLabel.style.display = "";
+        filePicker.classList.remove("has-file");
+        uploadSubmit.disabled = true;
+      }
+
+      fileInput.addEventListener("change", () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+        fileLabel.style.display = "none";
+        uploadPreview.style.display = "block";
+        uploadPreview.src = URL.createObjectURL(file);
+        filePicker.classList.add("has-file");
+        uploadSubmit.disabled = false;
+      });
+
+      uploadSubmit.addEventListener("click", async () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+
+        const pw = passwordInput.value;
+        if (!pw) {
+          uploadError.textContent = "enter the password";
+          return;
+        }
+
+        uploadError.textContent = "";
+        uploadSubmit.disabled = true;
+        uploadSubmit.textContent = "uploading...";
+
+        try {
+          const form = new FormData();
+          form.append("image", file);
+          form.append("caption", captionInput.value.trim());
+          form.append("password", pw);
+
+          const res = await fetch("/api/photos", { method: "POST", body: form });
+          const data = await res.json();
+
+          if (!res.ok) {
+            uploadError.textContent = data.error || "something went wrong";
+            uploadSubmit.disabled = false;
+            uploadSubmit.textContent = "upload";
+            return;
+          }
+
+          // Clear the "empty" placeholder if present
+          const empty = grid.querySelector(".gallery-empty");
+          if (empty) empty.remove();
+
+          photos.push(data);
+          const card = createCard(data, photos.length - 1);
+          grid.appendChild(card);
+          closeUpload();
+        } catch {
+          uploadError.textContent = "couldn't reach the server";
+          uploadSubmit.disabled = false;
+        }
+        uploadSubmit.textContent = "upload";
       });
 
       init();
