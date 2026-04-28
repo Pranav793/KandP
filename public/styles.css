@@ -300,6 +300,7 @@ body {
   line-height: var(--line-height);
   color: var(--ink-light);
   white-space: pre-line;
+  max-width: 60ch;
   flex: 1;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;

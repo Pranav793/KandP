@@ -94,6 +94,25 @@ export default {
       return handleImage(request, env, url);
     }
 
+    // Serve R2 images at /img/* (works on any hostname, including local dev)
+    if (url.pathname.startsWith("/img/")) {
+      const key = decodeURIComponent(url.pathname.slice(5)); // strip "/img/"
+      if (!key) return new Response("Not found", { status: 404 });
+
+      const object = await env.IMAGES.get(key);
+      if (!object) return new Response("Not found", { status: 404 });
+
+      const headers = new Headers();
+      headers.set("Content-Type", object.httpMetadata?.contentType ?? mimeFromKey(key));
+      headers.set("Cache-Control", IMAGE_CACHE_HEADER);
+      headers.set("ETag", object.httpEtag);
+      if (object.httpMetadata?.contentEncoding) {
+        headers.set("Content-Encoding", object.httpMetadata.contentEncoding);
+      }
+      headers.set("Access-Control-Allow-Origin", "*");
+      return new Response(object.body, { headers });
+    }
+
     if (url.pathname === "/api/health") {
       return json({ ok: true, project: "kandp", site: `https://${SITE_HOST}` });
     }
