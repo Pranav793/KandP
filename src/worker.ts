@@ -38,17 +38,13 @@ function mimeFromKey(key: string): string {
 
 async function getPhotos(env: Env): Promise<PhotoEntry[]> {
   const obj = await env.IMAGES.get(PHOTOS_KEY);
-  if (!obj) {
-    // Auto-seed from the static photos.json baked into public/
-    const fallback = await env.ASSETS.fetch(new Request("http://dummy/us/photos.json"));
-    if (fallback.ok) {
-      const seed = await fallback.json<PhotoEntry[]>();
-      await putPhotos(env, seed);
-      return seed;
-    }
-    return [];
-  }
-  return obj.json<PhotoEntry[]>();
+  if (obj) return obj.json<PhotoEntry[]>();
+
+  // No _photos.json in R2 yet — fall back to the static seed file.
+  // It only gets written to R2 when the first upload happens.
+  const fallback = await env.ASSETS.fetch(new Request("http://dummy/us/photos.json"));
+  if (fallback.ok) return fallback.json<PhotoEntry[]>();
+  return [];
 }
 
 async function putPhotos(env: Env, photos: PhotoEntry[]): Promise<void> {
@@ -169,6 +165,49 @@ export default {
     if (url.pathname === "/api/photos") {
       if (request.method === "GET") return handleGetPhotos(env);
       if (request.method === "POST") return handlePostPhoto(request, env);
+      if (request.method === "DELETE") {
+        const pw = request.headers.get("x-password");
+        if (pw !== env.UPLOAD_PASSWORD) return json({ error: "Wrong password" }, { status: 401 });
+        await env.IMAGES.delete(PHOTOS_KEY);
+        return json({ ok: true, message: "Reset to static seed" });
+      }
+      return new Response("Method not allowed", { status: 405 });
+    }
+
+    // Single-photo operations: /api/photos/<filename>
+    if (url.pathname.startsWith("/api/photos/")) {
+      const src = decodeURIComponent(url.pathname.slice("/api/photos/".length));
+      if (!src) return new Response("Not found", { status: 404 });
+
+      if (request.method === "PATCH") {
+        const body = await request.json<{ caption: string; password: string }>();
+        if (body.password !== env.UPLOAD_PASSWORD) {
+          return json({ error: "Wrong password" }, { status: 401 });
+        }
+        const photos = await getPhotos(env);
+        const photo = photos.find((p) => p.src === src);
+        if (!photo) return json({ error: "Photo not found" }, { status: 404 });
+
+        photo.caption = body.caption?.trim() || undefined;
+        await putPhotos(env, photos);
+        return json(photo);
+      }
+
+      if (request.method === "DELETE") {
+        const body = await request.json<{ password: string }>();
+        if (body.password !== env.UPLOAD_PASSWORD) {
+          return json({ error: "Wrong password" }, { status: 401 });
+        }
+        const photos = await getPhotos(env);
+        const idx = photos.findIndex((p) => p.src === src);
+        if (idx === -1) return json({ error: "Photo not found" }, { status: 404 });
+
+        photos.splice(idx, 1);
+        await putPhotos(env, photos);
+        await env.IMAGES.delete(src);
+        return json({ ok: true });
+      }
+
       return new Response("Method not allowed", { status: 405 });
     }
 

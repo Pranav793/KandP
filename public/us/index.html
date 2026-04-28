@@ -188,17 +188,18 @@
         max-width: 80vw;
       }
 
-      .lightbox .lb-close {
+      .lightbox .lb-close,
+      .lightbox .lb-edit,
+      .lightbox .lb-delete {
         position: absolute;
         top: 20px;
-        right: 24px;
         width: 40px;
         height: 40px;
         border: none;
         border-radius: 50%;
         background: rgba(255, 255, 255, 0.15);
         color: #fff;
-        font-size: 22px;
+        font-size: 18px;
         cursor: pointer;
         display: flex;
         align-items: center;
@@ -206,8 +207,147 @@
         transition: background 200ms ease;
       }
 
-      .lightbox .lb-close:hover {
-        background: rgba(255, 255, 255, 0.3);
+      .lightbox .lb-close { right: 24px; font-size: 22px; }
+      .lightbox .lb-edit  { right: 76px; }
+      .lightbox .lb-delete { right: 128px; }
+
+      .lightbox .lb-close:hover,
+      .lightbox .lb-edit:hover { background: rgba(255, 255, 255, 0.3); }
+      .lightbox .lb-delete:hover { background: rgba(192, 57, 43, 0.5); }
+
+      .lb-caption-editor {
+        position: absolute;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: none;
+        align-items: center;
+        gap: 8px;
+        width: 80vw;
+        max-width: 500px;
+      }
+
+      .lb-caption-editor.active {
+        display: flex;
+      }
+
+      .lb-caption-editor input {
+        flex: 1;
+        font-family: var(--font-page);
+        font-size: 18px;
+        padding: 8px 14px;
+        border: none;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.95);
+        color: var(--ink);
+        outline: none;
+      }
+
+      .lb-caption-editor button {
+        font-family: var(--font-page);
+        font-size: 16px;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 200ms ease;
+      }
+
+      .lb-caption-save {
+        background: var(--accent);
+        color: #fff;
+      }
+      .lb-caption-save:hover { background: #b5616e; }
+
+      .lb-caption-cancel-btn {
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+      }
+      .lb-caption-cancel-btn:hover { background: rgba(255, 255, 255, 0.35); }
+
+      /* ── Password prompt (shared) ───────────────── */
+
+      .pw-prompt {
+        position: fixed;
+        inset: 0;
+        z-index: 300;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 200ms ease;
+      }
+
+      .pw-prompt.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .pw-prompt-box {
+        background: var(--page-bg);
+        border-radius: 14px;
+        padding: 28px;
+        width: 90vw;
+        max-width: 320px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        text-align: center;
+      }
+
+      .pw-prompt-box h3 {
+        font-family: var(--font-page);
+        font-size: 22px;
+        color: var(--ink);
+        font-weight: normal;
+      }
+
+      .pw-prompt-box input {
+        font-family: var(--font-page);
+        font-size: 18px;
+        padding: 10px 14px;
+        border: 1.5px solid rgba(0, 0, 0, 0.12);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--ink);
+        outline: none;
+        text-align: center;
+      }
+
+      .pw-prompt-box input:focus { border-color: var(--accent); }
+
+      .pw-prompt-error {
+        font-family: var(--font-page);
+        font-size: 14px;
+        color: #c0392b;
+        min-height: 1.2em;
+      }
+
+      .pw-prompt-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      .pw-prompt-actions button {
+        font-family: var(--font-page);
+        font-size: 16px;
+        padding: 8px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      .pw-prompt-ok {
+        background: var(--accent);
+        color: #fff;
+      }
+      .pw-prompt-cancel {
+        background: transparent;
+        color: var(--ink-faint);
       }
 
       .lightbox .lb-nav {
@@ -458,6 +598,22 @@
           font-size: 24px;
         }
 
+        .lightbox .lb-close,
+        .lightbox .lb-edit,
+        .lightbox .lb-delete {
+          width: 34px;
+          height: 34px;
+          font-size: 15px;
+          top: 14px;
+        }
+        .lightbox .lb-close { right: 14px; font-size: 18px; }
+        .lightbox .lb-edit  { right: 56px; }
+        .lightbox .lb-delete { right: 98px; }
+
+        .lb-caption-editor { width: 92vw; }
+        .lb-caption-editor input { font-size: 16px; }
+        .lb-caption-editor button { font-size: 14px; padding: 8px 12px; }
+
         .upload-modal {
           padding: 24px;
           gap: 16px;
@@ -477,11 +633,31 @@
 
     <!-- Lightbox -->
     <div class="lightbox" id="lightbox">
+      <button class="lb-delete" aria-label="Delete">&#128465;</button>
+      <button class="lb-edit" aria-label="Edit caption">&#9998;</button>
       <button class="lb-close" aria-label="Close">&times;</button>
       <button class="lb-nav lb-prev" aria-label="Previous">&lsaquo;</button>
       <img src="" alt="" />
       <button class="lb-nav lb-next" aria-label="Next">&rsaquo;</button>
       <div class="lb-caption"></div>
+      <div class="lb-caption-editor" id="captionEditor">
+        <input type="text" id="captionEditorInput" placeholder="new caption..." />
+        <button class="lb-caption-save" id="captionEditorSave">save</button>
+        <button class="lb-caption-cancel-btn" id="captionEditorCancel">cancel</button>
+      </div>
+    </div>
+
+    <!-- Password prompt -->
+    <div class="pw-prompt" id="pwPrompt">
+      <div class="pw-prompt-box">
+        <h3 id="pwPromptTitle">enter password</h3>
+        <input type="password" id="pwPromptInput" placeholder="you know the one" autocomplete="off" />
+        <div class="pw-prompt-error" id="pwPromptError"></div>
+        <div class="pw-prompt-actions">
+          <button class="pw-prompt-cancel" id="pwPromptCancel">cancel</button>
+          <button class="pw-prompt-ok" id="pwPromptOk">ok</button>
+        </div>
+      </div>
     </div>
 
     <!-- Upload FAB -->
@@ -569,6 +745,7 @@
 
       function closeLightbox() {
         lightbox.classList.remove("open");
+        closeCaptionEditor();
       }
 
       function updateLightbox() {
@@ -596,6 +773,16 @@
       lightbox.addEventListener("click", (e) => { if (e.target === lightbox) closeLightbox(); });
 
       document.addEventListener("keydown", (e) => {
+        if (pwPrompt.classList.contains("open")) {
+          if (e.key === "Escape") cancelPwPrompt();
+          if (e.key === "Enter") pwPromptOk.click();
+          return;
+        }
+        if (captionEditor.classList.contains("active")) {
+          if (e.key === "Escape") closeCaptionEditor();
+          if (e.key === "Enter") captionEditorSave.click();
+          return;
+        }
         if (lightbox.classList.contains("open")) {
           if (e.key === "Escape") closeLightbox();
           if (e.key === "ArrowLeft") lbPrev();
@@ -606,6 +793,150 @@
           closeUpload();
         }
       });
+
+      /* ── Password prompt ──────────────────────── */
+
+      const pwPrompt = document.getElementById("pwPrompt");
+      const pwPromptInput = document.getElementById("pwPromptInput");
+      const pwPromptError = document.getElementById("pwPromptError");
+      const pwPromptOk = document.getElementById("pwPromptOk");
+      const pwPromptTitle = document.getElementById("pwPromptTitle");
+      let cachedPassword = sessionStorage.getItem("kp_pw") || "";
+      let pwResolve = null;
+
+      function askPassword(title) {
+        if (cachedPassword) return Promise.resolve(cachedPassword);
+        return new Promise((resolve) => {
+          pwResolve = resolve;
+          pwPromptTitle.textContent = title || "enter password";
+          pwPromptError.textContent = "";
+          pwPromptInput.value = "";
+          pwPrompt.classList.add("open");
+          setTimeout(() => pwPromptInput.focus(), 100);
+        });
+      }
+
+      function cancelPwPrompt() {
+        pwPrompt.classList.remove("open");
+        if (pwResolve) { pwResolve(null); pwResolve = null; }
+      }
+
+      document.getElementById("pwPromptCancel").addEventListener("click", cancelPwPrompt);
+      pwPrompt.addEventListener("click", (e) => { if (e.target === pwPrompt) cancelPwPrompt(); });
+
+      pwPromptOk.addEventListener("click", () => {
+        const pw = pwPromptInput.value;
+        if (!pw) { pwPromptError.textContent = "enter the password"; return; }
+        cachedPassword = pw;
+        sessionStorage.setItem("kp_pw", pw);
+        pwPrompt.classList.remove("open");
+        if (pwResolve) { pwResolve(pw); pwResolve = null; }
+      });
+
+      function clearCachedPassword() {
+        cachedPassword = "";
+        sessionStorage.removeItem("kp_pw");
+      }
+
+      /* ── Edit caption ─────────────────────────── */
+
+      const captionEditor = document.getElementById("captionEditor");
+      const captionEditorInput = document.getElementById("captionEditorInput");
+      const captionEditorSave = document.getElementById("captionEditorSave");
+
+      function openCaptionEditor() {
+        const p = photos[lbIndex];
+        const caption = (typeof p === "object" && p.caption) || "";
+        captionEditorInput.value = caption;
+        lbCaption.style.display = "none";
+        captionEditor.classList.add("active");
+        setTimeout(() => captionEditorInput.focus(), 50);
+      }
+
+      function closeCaptionEditor() {
+        captionEditor.classList.remove("active");
+        lbCaption.style.display = "";
+      }
+
+      document.getElementById("captionEditorCancel").addEventListener("click", closeCaptionEditor);
+
+      lightbox.querySelector(".lb-edit").addEventListener("click", openCaptionEditor);
+
+      captionEditorSave.addEventListener("click", async () => {
+        const pw = await askPassword("edit caption");
+        if (!pw) return;
+
+        const p = photos[lbIndex];
+        const newCaption = captionEditorInput.value.trim();
+        captionEditorSave.textContent = "saving...";
+
+        try {
+          const res = await fetch(`/api/photos/${encodeURIComponent(p.src)}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ caption: newCaption, password: pw }),
+          });
+          const data = await res.json();
+          if (!res.ok) {
+            if (res.status === 401) clearCachedPassword();
+            alert(data.error || "failed to save");
+            captionEditorSave.textContent = "save";
+            return;
+          }
+
+          p.caption = newCaption || undefined;
+          lbCaption.textContent = newCaption;
+          closeCaptionEditor();
+          rebuildGrid();
+        } catch {
+          alert("couldn't reach the server");
+        }
+        captionEditorSave.textContent = "save";
+      });
+
+      /* ── Delete photo ─────────────────────────── */
+
+      lightbox.querySelector(".lb-delete").addEventListener("click", async () => {
+        if (!confirm("delete this photo?")) return;
+
+        const pw = await askPassword("delete photo");
+        if (!pw) return;
+
+        const p = photos[lbIndex];
+
+        try {
+          const res = await fetch(`/api/photos/${encodeURIComponent(p.src)}`, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: pw }),
+          });
+          const data = await res.json();
+          if (!res.ok) {
+            if (res.status === 401) clearCachedPassword();
+            alert(data.error || "failed to delete");
+            return;
+          }
+
+          photos.splice(lbIndex, 1);
+          closeLightbox();
+          rebuildGrid();
+        } catch {
+          alert("couldn't reach the server");
+        }
+      });
+
+      function rebuildGrid() {
+        grid.innerHTML = "";
+        if (!photos.length) {
+          grid.innerHTML =
+            `<div class="gallery-empty">` +
+            `<div class="gallery-empty-title">memories go here</div>` +
+            `<div class="gallery-empty-desc">Upload your first photo with the + button.</div>` +
+            `</div>`;
+          return;
+        }
+        photos.forEach((p, i) => grid.appendChild(createCard(p, i)));
+      }
 
       /* ── Upload modal ─────────────────────────── */
 
